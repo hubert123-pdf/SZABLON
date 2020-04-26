@@ -1,8 +1,7 @@
 #ifndef WEKTOR_HH
 #define WEKTOR_HH
-
-#include "rozmiar.h"
 #include <iostream>
+#include "rozmiar.h"
 
 
 /*
@@ -18,7 +17,7 @@ class SWektor {
   STyp skladowe[SWymiar];
   public:
   /*
-      metody umozliwiające dostęp do danych klasy
+      metody umozliwiające dostęp do danych klasy oraz zmieniania ich wartosci
    */ 
    void setSkladowa(unsigned int index, STyp wartosc) 
    {
@@ -33,31 +32,30 @@ class SWektor {
    operator wczytywania Wektora na strumien wejsciowy 
    kazdemu miejscu w tablicy przypisywana jest wartosc
  */
-
+template <typename STyp, int SWymiar>
+std::istream& operator >> (std::istream &Strm, SWektor<STyp,SWymiar> &Wek)
+{
+    STyp x;
+    for(int i=0; i<SWymiar;i++)
+    {
+          Strm>>x;  Wek.setSkladowa(i,x);
+    }
+    std::cout<<std::endl;
+    return Strm;
+}
 /*
    operator wypisyania Wektora na strumien wyjsciowy
  */
-template <typename STyp, int SWymiar>
-std::istream& operator >> (std::istream &Strm, SWektor<STyp,SWymiar> &Wek);
 
 template <typename STyp, int SWymiar>
-std::ostream& operator << (std::ostream &Strm, const SWektor<STyp,SWymiar> &Wek);
+std::ostream& operator << (std::ostream &Strm, const SWektor<STyp,SWymiar> &Wek)
+{
+    for(int i=0;i<SWymiar;i++)
+    {
 
-//operator dodawania Wektorów
- template <typename STyp, int SWymiar>
-SWektor<STyp,SWymiar> operator+(SWektor<STyp,SWymiar> Wek1,SWektor<STyp,SWymiar> Wek2);
-//operator dodawania Wektorów
- template <typename STyp, int SWymiar>
-SWektor<STyp,SWymiar> operator-(SWektor<STyp,SWymiar> Wek1,SWektor<STyp,SWymiar> Wek2);
-//operator mnożenia Wektorów wektorowo
- template <typename STyp, int SWymiar>
-SWektor<STyp,SWymiar> operator*(SWektor<STyp,SWymiar> Wek1,double Wek2);
-//operator dodawania Wektorów skalarnie
- template <typename STyp, int SWymiar>
-STyp operator*(SWektor<STyp,SWymiar> Wek1,SWektor<STyp,SWymiar> Wek2);
-//operator dzielenia Wektorów
- template <typename STyp, int SWymiar>
-SWektor<STyp,SWymiar> operator/(SWektor<STyp,SWymiar> Wek1,double Wek2);
- template <typename STyp, int SWymiar>
-SWektor<STyp,SWymiar> iloczynWektorowy( SWektor<STyp,SWymiar> Wek1,SWektor<STyp,SWymiar>Wek2);
+        Strm<<Wek.getSkladowa(i)<<' ';
+    }
+    Strm<<std::endl;
+    return Strm;
+}
 #endif

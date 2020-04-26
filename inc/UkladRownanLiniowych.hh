@@ -1,22 +1,21 @@
 #ifndef UKLADROWNANLINIOWYCH_HH
 #define UKLADROWNANLINIOWYCH_HH
 
-#include "LZespolona.hh"
-#include "rozmiar.h"
 #include <iostream>
 #include "Macierz.hh"
 #include <math.h>
-//uklad rownan skladajacy sie z 2 wektorow i jednej macierzy
+
 
 template<typename STypU,int SWymiarU>
-class SUkladRownanLiniowych {
+class SUkladRownanLiniowych 
+{
      
   SWektor<STypU,SWymiarU> Wyniki; 
   SMacierz<STypU,SWymiarU> Macierz1;
   SWektor<STypU,SWymiarU> Rozwiazanie;
 
   public:
-  //konstruktor klasy
+    //konstruktor klasy
   SUkladRownanLiniowych(SMacierz<STypU,SWymiarU> Macierz2, SWektor<STypU,SWymiarU> Wyniki2)
   {
     Wyniki=Wyniki2;
@@ -24,8 +23,8 @@ class SUkladRownanLiniowych {
   }
   /*
   funkcje umozliwiajace dostep do odpowiednich elemetnow klasy
- */
-  SWektor<STypU,SWymiarU>  getwyniki()const
+  */
+  SWektor<STypU,SWymiarU>  getWyniki()const
   {
     return Wyniki;
   }
@@ -40,45 +39,49 @@ class SUkladRownanLiniowych {
  /*
  funkcje zmieniajce elementy klasy
  */
-  void setMacierz(int kolumna, int wiersz, double wartosc)
+  void setMacierz(int kolumna, int wiersz, STypU wartosc)
   {
     Macierz1.setMac(kolumna,wiersz,wartosc);
   }
-  void setWektor(int wiersz, double wartosc)
+  void setWektor(int wiersz, STypU wartosc)
   {
     Rozwiazanie.setSkladowa(wiersz,wartosc);
   }
   
   
-  //funkcja wyznaczajaca niewiadome uklady rownan 
-  STypU  ROZWIAZANIE(SUkladRownanLiniowych U);
-  //funkcja liczaca bład obliczen
+  //funkcja wyznaczajaca niewiadome ukladu rownan i wektor bledu
+  SWektor<STypU,SWymiarU>   ROZWIAZANIE();
   void Epsilon(); 
 };
 
-//przeciazenie nierowiniete poniewaz uzyty zostal konstuktor dla klasy
-//std::istream& operator >> (std::istream &Strm, SUkladRownanLiniowych<STypU,STypU2,SWymiarU> &UklRown);
 
-/*operator wyswietlajacy macierz transponowana 
-oraz wektor wyrazow wolnych */
 
 template<typename STypU,int SWymiarU>
 std::ostream& operator << (std::ostream &Strm, SUkladRownanLiniowych<STypU,SWymiarU> &UklRown)
  {
      Strm<<"Macierz A^T: \n";
-     UklRown.getMacierz().Transponowana();
+     Transponowana(UklRown.getMacierz());
      Strm<<"Wektor wyrazow wolnych: \n";
-     Strm<<UklRown.getwyniki()<<std::endl;
+     Strm<<UklRown.getWyniki()<<std::endl;
  return Strm;
  }
   /*funkcja liczaca wyznaczniki odpowiednich elementow 
   w oparciu o wzory Cramera*/
-  template<typename STypU,int SWymiarU>
-  double Wyznacznikx1(SUkladRownanLiniowych<STypU,SWymiarU> U);
-  template<typename STypU,int SWymiarU>
-  double Wyznacznikx2(SUkladRownanLiniowych<STypU,SWymiarU> U);
-  template<typename STypU,int SWymiarU>
-  double Wyznacznikx3(SUkladRownanLiniowych<STypU,SWymiarU> U);
-  
+  template <typename STypU, int SWymiarU>
+  SWektor<STypU,SWymiarU>  SUkladRownanLiniowych<STypU,SWymiarU>::ROZWIAZANIE()
+ {  
+    SMacierz<STypU,SWymiarU> Macierz2;
+   for(int i=0;i<SWymiarU;i++)
+   {
+     Macierz2=Macierz1;
+     for(int j=0;j<SWymiarU;j++)
+     {
+       Macierz2.setMac(j,i,getWyniki().getSkladowa(j)); 
+     }
+     setWektor(i,Macierz2.znajdzWyznacznik()/getMacierz().znajdzWyznacznik());
+   }
+   
+  return Rozwiazanie;
+ }
 
 #endif

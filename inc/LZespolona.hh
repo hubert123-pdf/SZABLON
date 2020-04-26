@@ -1,5 +1,6 @@
 #ifndef LZESPOLONA_HH
 #define LZESPOLONA_HH
+
 #include<iostream>
 /*!
  *  Plik zawiera definicje struktury LZesplona oraz zapowiedzi
@@ -21,7 +22,6 @@ struct  LZespolona {
  * Dalej powinny pojawic sie zapowiedzi definicji przeciazen operatorow
  */
 
-
 LZespolona  operator + (LZespolona  Skl1,  LZespolona  Skl2);
 LZespolona  operator - (LZespolona  Skl1,  LZespolona  Skl2);
 LZespolona  operator * (LZespolona  Skl1,  LZespolona  Skl2);
@@ -33,4 +33,11 @@ LZespolona Sprzezenie(LZespolona Lz);
 double modul(LZespolona Lz);
 LZespolona  operator / (LZespolona  Skl1,double Skl3);
 LZespolona operator%(LZespolona A, LZespolona B);
+LZespolona  operator/(LZespolona  Skl1,LZespolona Skl2)
+{
+  LZespolona wynik;
+  wynik=(Skl1*Sprzezenie(Skl2))/modul(Skl2);
+  return wynik;
+}
+
 #endif
