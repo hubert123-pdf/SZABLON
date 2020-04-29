@@ -12,11 +12,11 @@ class SMacierz
   public:
   
   //metody umozliwiające dostęp do danych klasy
-  template <typename STyp, int SWymiar>
-   SWektor<STyp,SWymiar> getKolumna(int index)
-   {
-     return kolumny[index];
-   }
+  
+   SWektor<STypM,SWymiarM> operator[](int index)const
+  {
+    return kolumny[index];
+  }
    STypM getMac(int kolumna, int wiersz)const
    {
      return kolumny[kolumna].getSkladowa(wiersz);
@@ -28,7 +28,7 @@ class SMacierz
   }
 
 //funkcja liczaca wyznacznik danej macierzy
-    STypM znajdzWyznacznik(); 
+    
     
    
 };
@@ -56,7 +56,7 @@ std::ostream& operator << (std::ostream &Strm, const SMacierz<STypM,SWymiarM> &M
     for(int i=0;i<SWymiarM;i++)
     {
         for(int j=0;j<SWymiarM;j++)
-        Strm<<Mac.getMac(j,i)<<' ';
+        Strm<<Mac[j][i]<<' ';
         Strm<<std::endl;
     }
     Strm<<std::endl;
@@ -68,32 +68,32 @@ std::ostream& operator << (std::ostream &Strm, const SMacierz<STypM,SWymiarM> &M
     for(int i=0;i<SWymiarM;i++)
     {
         for(int j=0;j<SWymiarM;j++)
-        std::cout<<Mac.getMac(i,j)<<' ';
+        std::cout<<Mac[i][j]<<' ';
         std::cout<<std::endl;
     }
     std::cout<<std::endl;
  }
 
  template <typename STypM, int SWymiarM>
-STypM SMacierz<STypM,SWymiarM>::znajdzWyznacznik()
+ STypM znajdzWyznacznik(SMacierz<STypM,SWymiarM> Mac)
 {
- STypM det=kolumny[0].getSkladowa(0);
+ STypM det=Mac[0][0];
   for(int k=0;k<SWymiarM-1;k++)
   {
     for(int i=k+1;i<SWymiarM;i++)
     {
       for(int j=k+1;j<SWymiarM;j++)
       {
-        kolumny[i].setSkladowa(j,kolumny[i].getSkladowa(j)-kolumny[i].getSkladowa(k)/kolumny[k].getSkladowa(k)*kolumny[k].getSkladowa(j));
+       // Mac.setMac(i,j,Mac[i][j]-Mac[i][k]/Mac[k][k]*Mac[k][j]);
+        Mac.setMac(i,j,Mac[j][i]-(Mac[k][i]/Mac[k][k])*Mac[j][k]);
       }
     }
   }
  
   for(int i=1;i<SWymiarM;i++)
   {
-    det=det*kolumny[i].getSkladowa(i);
+    det=det*Mac[i][i];
   }
- 
 return det;
 } 
 #endif

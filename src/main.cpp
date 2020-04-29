@@ -18,6 +18,7 @@ int main(int agrc,char*argv[])
     typedef double typ;
 
   SWektor<typ,ROZMIAR> Wek;
+ 
   SMacierz<typ,ROZMIAR> Mac;
   cout<<endl<<"Wypelnij Macierz wyrazow wolnych:"<<endl;
   cin>>Mac;
@@ -28,14 +29,21 @@ int main(int agrc,char*argv[])
   cout<<URL;
 
   cout<<"Wektor Rozwiazan: "<<endl;
+  if(znajdzWyznacznik(Mac))
   cout<<URL.ROZWIAZANIE();
+  else
+  {
+    cout<<endl<<"Wyznacznik rowny zero brak rozwiazan"<<endl;
+    return 1;
+  }
   }
   
-  if(!strcmp(argv[1],"z"))
+   if(!strcmp(argv[1],"r"))
   {
-   typedef LZespolona typ;
+    typedef double typ;
 
   SWektor<typ,ROZMIAR> Wek;
+ 
   SMacierz<typ,ROZMIAR> Mac;
   cout<<endl<<"Wypelnij Macierz wyrazow wolnych:"<<endl;
   cin>>Mac;
@@ -46,7 +54,13 @@ int main(int agrc,char*argv[])
   cout<<URL;
 
   cout<<"Wektor Rozwiazan: "<<endl;
+  if(znajdzWyznacznik(Mac))
   cout<<URL.ROZWIAZANIE();
+  else
+  {
+    cout<<endl<<"Wyznacznik rowny zero brak rozwiazan"<<endl;
+    return 1;
   }
+}
 }
 

@@ -78,7 +78,7 @@ std::ostream& operator << (std::ostream &Strm, SUkladRownanLiniowych<STypU,SWymi
      {
        Macierz2.setMac(j,i,getWyniki().getSkladowa(j)); 
      }
-     setWektor(i,Macierz2.znajdzWyznacznik()/getMacierz().znajdzWyznacznik());
+     setWektor(i,znajdzWyznacznik(Macierz2)/znajdzWyznacznik(Macierz1));
    }
    
   return Rozwiazanie;

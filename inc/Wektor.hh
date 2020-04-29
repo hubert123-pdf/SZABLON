@@ -16,6 +16,10 @@ class SWektor {
 
   STyp skladowe[SWymiar];
   public:
+  STyp operator[](int index)const
+  {
+    return skladowe[index];
+  }
   /*
       metody umozliwiające dostęp do danych klasy oraz zmieniania ich wartosci
    */ 
@@ -48,12 +52,12 @@ std::istream& operator >> (std::istream &Strm, SWektor<STyp,SWymiar> &Wek)
  */
 
 template <typename STyp, int SWymiar>
-std::ostream& operator << (std::ostream &Strm, const SWektor<STyp,SWymiar> &Wek)
+std::ostream& operator << (std::ostream &Strm,const SWektor<STyp,SWymiar> &Wek)
 {
     for(int i=0;i<SWymiar;i++)
     {
 
-        Strm<<Wek.getSkladowa(i)<<' ';
+        Strm<<Wek[i]<<' ';
     }
     Strm<<std::endl;
     return Strm;
