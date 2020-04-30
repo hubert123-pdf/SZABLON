@@ -29,7 +29,7 @@ LZespolona  operator * (LZespolona  Skl1,  LZespolona  Skl2)
   LZespolona  Wynik;
 
   Wynik.re = Skl1.re*Skl2.re-Skl1.im*Skl2.im;
-  Wynik.im = Skl1.im * Skl2.re + Skl1.re*Skl2.im;
+  Wynik.im = Skl1.re*Skl2.im +Skl2.re*Skl1.im;
   return Wynik;
 }
 /*Relaizuje proces wpisywania liczby zespolonej */
@@ -52,7 +52,7 @@ LZespolona Sprzezenie(LZespolona Lz)
   LZespolona Wynik;
   Wynik.re=Lz.re;
   Wynik.im=-Lz.im;
-
+  
 return Wynik;
 }
 /*zwraca kwadrat z modulu liczby zepolonej*/
@@ -72,4 +72,12 @@ LZespolona  operator / (LZespolona  Skl1,double Skl3)
   wynik.im=Skl1.im/Skl3;
   return wynik;
 }
-
+bool operator == (LZespolona  Skl1,LZespolona Skl2)
+{
+  if(Skl1.re==Skl2.re && Skl1.im==Skl2.im)
+  {
+  return true;
+  }
+  else 
+  return false;
+}

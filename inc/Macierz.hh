@@ -12,28 +12,33 @@ class SMacierz
   public:
   
   //metody umozliwiające dostęp do danych klasy
-  
-   SWektor<STypM,SWymiarM> operator[](int index)const
+  SWektor<STypM,SWymiarM> operator[](int index)const
   {
     return kolumny[index];
   }
-   STypM getMac(int kolumna, int wiersz)const
-   {
+  STypM getMac(int kolumna, int wiersz)const
+  {
      return kolumny[kolumna].getSkladowa(wiersz);
-   }
-   //Metoda zmieniajaca wartosc macierzy
-   void setMac(int kolumna,int wiersz,STypM wartosc) 
+  }
+  SWektor<STypM,SWymiarM> getWiersz(int index)
+  {
+    SWektor<STypM,SWymiarM> Wynik;
+       for(int i=0;i<SWymiarM;i++)
+       {
+         Wynik.setSkladowa(i,kolumny[i][index]);
+       }
+   return Wynik; 
+  }
+
+  //Metoda zmieniajaca wartosc macierzy
+  void setMac(int kolumna,int wiersz,STypM wartosc) 
   {
     kolumny[wiersz].setSkladowa(kolumna,wartosc);
   }
 
-//funkcja liczaca wyznacznik danej macierzy
-    
-    
-   
 };
 
-
+//Ustawienie Macierzy
 template <typename STypM, int SWymiarM>
 std::istream& operator >> (std::istream &Strm, SMacierz<STypM,SWymiarM> &Mac)
 {
@@ -49,7 +54,7 @@ std::istream& operator >> (std::istream &Strm, SMacierz<STypM,SWymiarM> &Mac)
     std::cout<<std::endl;
     return Strm;
 }
-
+//Wyświetlenie macierzy
 template <typename STypM, int SWymiarM>
 std::ostream& operator << (std::ostream &Strm, const SMacierz<STypM,SWymiarM> &Mac)
 {
@@ -62,8 +67,9 @@ std::ostream& operator << (std::ostream &Strm, const SMacierz<STypM,SWymiarM> &M
     Strm<<std::endl;
     return Strm;
 }
- template <typename STypM, int SWymiarM>
- void Transponowana(const SMacierz<STypM,SWymiarM> &Mac)
+//Wyświetlenie macierzy transponowanej
+template <typename STypM, int SWymiarM>
+void Transponowana(const SMacierz<STypM,SWymiarM> &Mac)
  {
     for(int i=0;i<SWymiarM;i++)
     {
@@ -73,9 +79,10 @@ std::ostream& operator << (std::ostream &Strm, const SMacierz<STypM,SWymiarM> &M
     }
     std::cout<<std::endl;
  }
-
- template <typename STypM, int SWymiarM>
- STypM znajdzWyznacznik(SMacierz<STypM,SWymiarM> Mac)
+ 
+//funkcja licząca wyznacznik macierzy korzystając z algorytmu eliminacji gaussa
+template <typename STypM, int SWymiarM>
+STypM znajdzWyznacznik(SMacierz<STypM,SWymiarM> Mac)
 {
  STypM det=Mac[0][0];
   for(int k=0;k<SWymiarM-1;k++)
@@ -84,8 +91,7 @@ std::ostream& operator << (std::ostream &Strm, const SMacierz<STypM,SWymiarM> &M
     {
       for(int j=k+1;j<SWymiarM;j++)
       {
-       // Mac.setMac(i,j,Mac[i][j]-Mac[i][k]/Mac[k][k]*Mac[k][j]);
-        Mac.setMac(i,j,Mac[j][i]-(Mac[k][i]/Mac[k][k])*Mac[j][k]);
+                Mac.setMac(i,j,Mac[j][i]-(Mac[k][i]/Mac[k][k])*Mac[j][k]);
       }
     }
   }

@@ -50,8 +50,10 @@ class SUkladRownanLiniowych
   
   
   //funkcja wyznaczajaca niewiadome ukladu rownan i wektor bledu
+
   SWektor<STypU,SWymiarU>   ROZWIAZANIE();
-  void Epsilon(); 
+  SWektor<STypU,SWymiarU> Epsilon(); 
+
 };
 
 
@@ -65,10 +67,12 @@ std::ostream& operator << (std::ostream &Strm, SUkladRownanLiniowych<STypU,SWymi
      Strm<<UklRown.getWyniki()<<std::endl;
  return Strm;
  }
+
   /*funkcja liczaca wyznaczniki odpowiednich elementow 
   w oparciu o wzory Cramera*/
-  template <typename STypU, int SWymiarU>
-  SWektor<STypU,SWymiarU>  SUkladRownanLiniowych<STypU,SWymiarU>::ROZWIAZANIE()
+
+template <typename STypU, int SWymiarU>
+SWektor<STypU,SWymiarU>  SUkladRownanLiniowych<STypU,SWymiarU>::ROZWIAZANIE()
  {  
     SMacierz<STypU,SWymiarU> Macierz2;
    for(int i=0;i<SWymiarU;i++)
@@ -80,8 +84,20 @@ std::ostream& operator << (std::ostream &Strm, SUkladRownanLiniowych<STypU,SWymi
      }
      setWektor(i,znajdzWyznacznik(Macierz2)/znajdzWyznacznik(Macierz1));
    }
-   
+
   return Rozwiazanie;
  }
-
+//Funkcja licząca wektor błędu
+ template<typename STypU,int SWymiarU>
+ SWektor<STypU,SWymiarU> SUkladRownanLiniowych<STypU,SWymiarU>::Epsilon()
+ {
+     SWektor<STypU,SWymiarU> Epsilon;
+     for(int i=0;i<SWymiarU;i++)
+     {
+         Epsilon.setSkladowa(i,getMacierz().getWiersz(i)*getRozwiazanie()-getWyniki()[i]);     
+     }
+    std::cout<<"Wektor bledu: Ax-b: "<<std::endl;
+    
+   return Epsilon;
+ }
 #endif

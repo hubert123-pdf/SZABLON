@@ -62,4 +62,16 @@ std::ostream& operator << (std::ostream &Strm,const SWektor<STyp,SWymiar> &Wek)
     Strm<<std::endl;
     return Strm;
 }
+
+//funkcja licząca iloczyn skalarny dwóch Wektorów
+template <typename STyp, int SWymiar>
+ STyp  operator * ( SWektor<STyp,SWymiar> Wek1, SWektor<STyp,SWymiar> Wek2)
+{
+   STyp Wynik;
+   for(int i=0;i<SWymiar;i++)
+   {
+     Wynik=Wynik+Wek1[i]*Wek2[i];
+   }
+  return Wynik;
+}
 #endif
