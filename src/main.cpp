@@ -6,20 +6,17 @@
 #include "UkladRownanLiniowych.hh"
 #include "rozmiar.h"
 #include "LZespolona.hh"
-
+#include <fstream>
 
 using namespace std;
 
 
 int main(int agrc,char*argv[])
 {
- 
   if(!strcmp(argv[1],"r"))
   {
-    typedef double typ;
-
+  typedef double typ;
   SWektor<typ,ROZMIAR> Wek;
- 
   SMacierz<typ,ROZMIAR> Mac;
   cout<<endl<<"Wypelnij Macierz wyrazow wolnych:"<<endl;
   cin>>Mac;
